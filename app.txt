@@ -1,0 +1,123 @@
+import streamlit as st
+from PIL import Image
+from streamlit_modal import Modal
+
+def mock_model(image):
+    return {"Label": "Cat", "Confidence": 0.95}
+
+st.markdown(
+    """
+    <style> 
+    
+    .container {
+        text-align: center;
+        margin-top: 0;
+    }
+
+    .title {
+        margin-bottom: 10px;  /* Reduce space below the title */
+    }
+    </style>
+    <div class="container">
+        <div class="title"><h1>Air Quality Detector</h1></div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+uploaded_file = st.file_uploader("Upload an image file", type=["png", "jpg", "jpeg"])
+
+if uploaded_file is not None:
+    image = Image.open(uploaded_file)
+
+    st.write("Processing image...")
+
+    modal = Modal(
+    "Modal", 
+    key="demo-modal",
+    
+    padding=20,    
+    )
+    open_modal = st.button("Open Result")
+    if open_modal:
+        modal.open()
+
+    if modal.is_open():
+        with modal.container():
+            col1, col2, col3 = st.columns([1, 3, 1])
+            with col2: 
+                col2.image(image, caption="Uploaded Image", width=400)
+            st.write("Text goes here")
+
+st.markdown(
+        """
+        <style> 
+        .button-back {
+            appearance: button;
+            background-color: #000;
+            background-image: none;
+            border: 1px solid #000;
+            border-radius: 4px;
+            box-shadow: #fff 4px 4px 0 0, #000 4px 4px 0 1px;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: ITCAvantGardeStd-Bk, Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            margin: 0 5px 10px 0;
+            overflow: visible;
+            padding: 12px 40px;
+            text-align: center;
+            text-transform: none;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+        .button-back:focus {
+            text-decoration: none;
+        }
+
+        .button-back:hover {
+            text-decoration: none;
+        }
+
+        .button-back:active {
+            box-shadow: rgba(0, 0, 0, .125) 0 3px 5px inset;
+            outline: 0;
+        }
+
+        .button-back:not([disabled]):active {
+            box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+            transform: translate(2px, 2px);
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        </style>
+        <div class="container">
+            <a href="http://127.0.0.1:5500/base.html" class="button-back" target="_self">Back</a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )   
+    
+
+
+    
+
+
+
+
+
+
+
+    
